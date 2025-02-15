@@ -1,4 +1,5 @@
 --!strict
+--!native
 
 --- An iterator function for checking if a table is missing keys from another table
 --- @param target table — The table to check for missing keys
