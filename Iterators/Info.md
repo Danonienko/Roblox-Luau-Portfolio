@@ -1,2 +1,2 @@
 # My Iterator Library
-Here you can find various iterators that I created for myself thorough my career as a programmer
+In this directory, you can find various iterator functions used for generic for-loops that I have created throughout my career
