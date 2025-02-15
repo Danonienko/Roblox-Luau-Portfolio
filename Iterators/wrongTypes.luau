@@ -1,4 +1,5 @@
 --!strict
+--!native
 
 --- An iterator function for checking if a value of a key is of correct type
 --- @param t table — The table to check
