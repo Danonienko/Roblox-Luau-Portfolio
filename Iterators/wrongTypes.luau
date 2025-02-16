@@ -5,54 +5,22 @@
 --- @param t table — The table to check
 --- @param type string — The name of the type to check for
 --- @return The iterator function that returns a key and value pairs where value is of incorrect type
-return function<T>(t: { T } | { [string]: T }, type: string): () -> (string?, T)
-	local wrongKeyValueTypes: { T } | { [string]: T } = {}
+return function<K, V>(t: { [K]: V }, type: string): () -> (K?, V)
+	local wrongTypes: { [K]: V } = {}
 
-	local tableIsAnArray: boolean = #t > 0 and true or false
-
-	if tableIsAnArray then
-		-- The table is an array
-
-		for index: number, value: T in t :: { T } do
-			if (typeof(value) == "Instance" and value.ClassName == type) or typeof(value) == type then
-				continue
-			end
-
-			table.insert(wrongKeyValueTypes :: { T }, value :: T)
+	for key: K, value: V in t do
+		if (typeof(value) == "Instance" and value.ClassName == type) or typeof(value) == type then
+			continue
 		end
-	else
-		-- The table is a key–value–pairs
 
-		for key: string, value: T in t :: { [string]: T } do
-			if (typeof(value) == "Instance" and value.ClassName == type) or typeof(value) == type then
-				continue
-			end
-
-			(wrongKeyValueTypes :: { [string]: T })[key] = value
-		end
+		wrongTypes[key] = value
 	end
 
-	local localTableIsAnArray: boolean = #wrongKeyValueTypes > 0 and true or false
+	local key: K?, value: V
 
-	if localTableIsAnArray then
-		-- The local table is an array
+	return function(): (K?, V)
+		key, value = next(wrongTypes)
 
-		local index: number = 0
-
-		return function(): (string?, T)
-			index += 1
-
-			return index <= #wrongKeyValueTypes and tostring(index) or nil, (wrongKeyValueTypes :: { T })[index]
-		end
-	else
-		-- The local table is a key–value–pairs
-
-		local key: string?, value: T
-
-		return function(): (string?, T)
-			key, value = next(wrongKeyValueTypes :: { [string]: T }, key)
-
-			return key, value
-		end
+		return key, value
 	end
 end
