@@ -14,7 +14,7 @@ return function<T>(t: { T } | { [string]: T }, type: string): () -> (string?, T)
 		-- The table is an array
 
 		for index: number, value: T in t :: { T } do
-			if (typeof(value) == "Instance" and value.Name == type) or typeof(value) == type then
+			if (typeof(value) == "Instance" and value.ClassName == type) or typeof(value) == type then
 				continue
 			end
 
@@ -24,7 +24,7 @@ return function<T>(t: { T } | { [string]: T }, type: string): () -> (string?, T)
 		-- The table is a key–value–pairs
 
 		for key: string, value: T in t :: { [string]: T } do
-			if (typeof(value) == "Instance" and value.Name == type) or typeof(value) == type then
+			if (typeof(value) == "Instance" and value.ClassName == type) or typeof(value) == type then
 				continue
 			end
 
