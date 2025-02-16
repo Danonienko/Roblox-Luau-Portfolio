@@ -19,7 +19,7 @@ return function<K, V>(t: { [K]: V }, type: string): () -> (K?, V)
 	local key: K?, value: V
 
 	return function(): (K?, V)
-		key, value = next(wrongTypes)
+		key, value = next(wrongTypes, key)
 
 		return key, value
 	end
